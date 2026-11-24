@@ -1,0 +1,17 @@
+# Defaults only. Per-environment values live in k8s/environments/<env>.yaml,
+# exactly like the dev/prod value files in class.
+appEnv: dev
+replicaCount: 1
+
+image:
+  repository: "REPLACE_ME.dkr.ecr.ap-south-1.amazonaws.com/student-portal"
+  # The CI bot rewrites ONLY this line (on the argo-<env> branch). Commit SHA, never "latest".
+  tag: "REPLACE_ME"
+
+service:
+  port: 80
+  targetPort: 8080
+
+resources:
+  requests: { cpu: 50m, memory: 64Mi }
+  limits: { memory: 128Mi }

@@ -1,0 +1,6 @@
+# PLANTED: old versions with publicly known CVEs. Replace app/requirements.txt on a feature branch.
+# Expected: pip-audit / trivy fs / dependabot report findings. Check which CVEs appear and their fixed versions.
+flask==0.12.2
+requests==2.19.0
+pyyaml==5.3
+gunicorn==19.4.5

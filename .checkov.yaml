@@ -1,0 +1,15 @@
+# Checkov config. Skips here are DECISIONS, so every one carries a reason.
+# Run:  checkov --config-file .checkov.yaml -d infra
+framework:
+  - terraform
+quiet: true
+compact: true
+skip-check:
+  # S3 access logging / cross-region replication / event notifications / KMS CMK
+  # are real production controls but cost money or need extra infra for a lab bucket.
+  # Remove these skips (and fix the findings) to practise the "ratchet" policy.
+  - CKV_AWS_18   # access logging
+  - CKV_AWS_144  # cross-region replication
+  - CKV2_AWS_62  # event notifications
+  - CKV_AWS_145  # KMS CMK instead of AES256
+  - CKV_AWS_136  # ECR KMS encryption (AES256 used in lab)

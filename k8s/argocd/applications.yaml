@@ -1,0 +1,68 @@
+# Three Argo CD Applications, ONE cluster, three namespaces.
+# This is how you get dev/staging/prod behaviour without a second cluster:
+# same destination server, different namespace + different branch + different values file.
+# Apply once:  kubectl apply -n argocd -f k8s/argocd/applications.yaml
+# Replace REPLACE_OWNER/REPLACE_REPO first.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: student-portal-dev
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/REPLACE_OWNER/REPLACE_REPO.git
+    targetRevision: argo-dev
+    path: k8s/chart
+    helm:
+      valueFiles:
+        - ../environments/dev.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: portal-dev
+  syncPolicy:
+    automated: { prune: true, selfHeal: true }
+    syncOptions: [CreateNamespace=true]
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: student-portal-staging
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/REPLACE_OWNER/REPLACE_REPO.git
+    targetRevision: argo-staging
+    path: k8s/chart
+    helm:
+      valueFiles:
+        - ../environments/staging.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: portal-staging
+  syncPolicy:
+    automated: { prune: true, selfHeal: true }
+    syncOptions: [CreateNamespace=true]
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: student-portal-prod
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/REPLACE_OWNER/REPLACE_REPO.git
+    targetRevision: argo-prod
+    path: k8s/chart
+    helm:
+      valueFiles:
+        - ../environments/prod.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: portal-prod
+  syncPolicy:
+    # Prod sync is manual on purpose: the promotion workflow's approval gate is the control,
+    # and a human can still watch the sync. Switch to automated once you trust the gate.
+    syncOptions: [CreateNamespace=true]

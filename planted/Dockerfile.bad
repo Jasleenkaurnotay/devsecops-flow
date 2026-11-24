@@ -1,0 +1,6 @@
+# PLANTED: copy over ./Dockerfile on a feature branch. Expected: hadolint warns; trivy config/image flags root user.
+FROM python:latest
+WORKDIR /app
+COPY . .
+RUN pip install flask
+CMD python app/wsgi.py

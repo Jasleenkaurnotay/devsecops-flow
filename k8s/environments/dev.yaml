@@ -1,0 +1,5 @@
+appEnv: dev
+replicaCount: 1
+image:
+  repository: "REPLACE_ME.dkr.ecr.ap-south-1.amazonaws.com/student-portal"
+  tag: "REPLACE_ME"
