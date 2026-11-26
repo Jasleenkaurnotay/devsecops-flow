@@ -8,7 +8,7 @@ and deliberately broken files to prove each check works.
 with its own namespace (`portal-dev`, `portal-staging`, `portal-prod`), its own Git branch and its own values file.
 Terraform creates only free or near-free AWS resources (an S3 bucket, an SSM parameter, one ECR repo).
 
-## 0. FOCUSED PATH (the one Jasleen chose): 3 workflows, about 5 to 6 hours
+## 0. FOCUSED PATH 
 
 - Setup, minimal: state bucket + `bootstrap/`; only GitHub environments `dev` and `production`; only branches `argo-dev` and `argo-prod`;
   only the dev and prod Argo CD Applications. Use roles `plan`, `apply-dev`, `apply-prod`, `ecr-push`; ignore the rest.
